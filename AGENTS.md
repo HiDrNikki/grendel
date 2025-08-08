@@ -1,104 +1,79 @@
 # ./grendel/AGENTS.md
+You should also check in ROADMAP.md to get an idea of the scope, scale, and progress of this project.
 
 The project directory has the following structure:
 
-grendel/
+huginn/
 ├─ src/
-│  ├─ benchmarks/
-│  │  ├─ __init__.py
-│  │  ├─ perfHarness.py
-│  │  └─ syntheticKernels.py
 │  ├─ docs/
 │  │  ├─ api.md
-│  │  ├─ architecture.md
-│  │  ├─ memoryModel.md
-│  │  ├─ roadmap.md
-│  │  └─ shim.md
+│  │  └─ architecture.md
 │  ├─ examples/
-│  │  ├─ cupyDemo.py
-│  │  └─ minimalClient.py
-│  ├─ grendel/
-│  │  ├─ api/
+│  │  └─ minimalTextGen.py
+│  ├─ huginn/
+│  │  ├─ aiAssistant/
 │  │  │  ├─ __init__.py
-│  │  │  ├─ models.py
-│  │  │  ├─ restServer.py
-│  │  │  └─ rpcServer.py
+│  │  │  ├─ assistant.py
+│  │  │  └─ systemDiagnostics.py
+│  │  ├─ c/
+│  │  │  ├─ __init__.py
+│  │  │  └─ meson.build
 │  │  ├─ config/
 │  │  │  ├─ __init__.py
 │  │  │  ├─ defaults.toml
-│  │  │  ├─ loader.py
 │  │  │  └─ schema.json
-│  │  ├─ core/
-│  │  │  ├─ policy/
-│  │  │  │  ├─ __init__.py
-│  │  │  │  ├─ kvStore.py
-│  │  │  │  └─ placementPolicy.py
-│  │  │  ├─ __init__.py
-│  │  │  ├─ daemon.py
-│  │  │  ├─ deviceDiscovery.py
-│  │  │  ├─ jobManager.py
-│  │  │  ├─ scheduler.py
-│  │  │  └─ topology.py
 │  │  ├─ cython/
-│  │  │  ├─ gpu/
-│  │  │  │  ├─ fastMemcpy.pxd
-│  │  │  │  └─ fastMemcpy.pyx
-│  │  │  ├─ memory/
-│  │  │  │  ├─ mappedHostPinned.pxd
-│  │  │  │  ├─ mappedHostPinned.pyx
-│  │  │  │  ├─ vramCache.pxd
-│  │  │  │  └─ vramCache.pyx
 │  │  │  ├─ __init__.py
 │  │  │  └─ setupCython.py
-│  │  ├─ gpu/
+│  │  ├─ integration/
 │  │  │  ├─ __init__.py
-│  │  │  ├─ events.py
-│  │  │  ├─ streams.py
-│  │  │  └─ worker.py
+│  │  │  ├─ grendelClient.py
+│  │  │  └─ modelRegistry.py
 │  │  ├─ ipc/
-│  │  │  ├─ proto/
-│  │  │  │  └─ grendel.proto
 │  │  │  ├─ __init__.py
-│  │  │  ├─ client.py
-│  │  │  ├─ messages.py
-│  │  │  └─ server.py
-│  │  ├─ memory/
-│  │  │  ├─ __init__.py
-│  │  │  ├─ dedupe.py
-│  │  │  ├─ grendelRam.py
-│  │  │  ├─ nvmeSpill.py
-│  │  │  ├─ pager.py
-│  │  │  ├─ prefetcher.py
-│  │  │  ├─ slice.py
-│  │  │  └─ vramCache.py
+│  │  │  └─ messages.py
 │  │  ├─ observability/
 │  │  │  ├─ __init__.py
 │  │  │  ├─ logging.py
-│  │  │  ├─ metrics.py
-│  │  │  └─ tracing.py
-│  │  ├─ shim/
-│  │  │  ├─ cudaShim.c
-│  │  │  ├─ cudaShim.h
-│  │  │  ├─ meson.build
-│  │  │  └─ README.md
-│  │  ├─ tools/
+│  │  │  └─ metrics.py
+│  │  ├─ orchestrator/
 │  │  │  ├─ __init__.py
-│  │  │  └─ grendelCtl.py
-│  │  ├─ __init__ copy.py
+│  │  │  ├─ executionEngine.py
+│  │  │  └─ jobManager.py
+│  │  ├─ planner/
+│  │  │  ├─ __init__.py
+│  │  │  ├─ costModel.py
+│  │  │  ├─ partitioner.py
+│  │  │  └─ planGraph.py
+│  │  ├─ quantization/
+│  │  │  ├─ __init__.py
+│  │  │  └─ loadQuantizer.py
+│  │  ├─ runtime/
+│  │  │  ├─ __init__.py
+│  │  │  ├─ onnxAdapter.py
+│  │  │  └─ torchAdapter.py
+│  │  ├─ scheduling/
+│  │  │  ├─ __init__.py
+│  │  │  └─ policy.py
+│  │  ├─ sdk/
+│  │  │  ├─ __init__.py
+│  │  │  └─ client.py
+│  │  ├─ weights/
+│  │  │  ├─ __init__.py
+│  │  │  ├─ cache.py
+│  │  │  └─ downloader.py
 │  │  ├─ __init__.py
-│  │  ├─ __main__ copy.py
 │  │  ├─ __main__.py
-│  │  ├─ cli copy.py
 │  │  ├─ cli.py
-│  │  └─ version.py
+│  │  └─ dataTypes.py
 │  └─ scripts/
-│     ├─ buildShim.ps1
-│     ├─ buildShim.sh
 │     ├─ dev.ps1
 │     └─ dev.sh
 ├─ AGENTS.md
 ├─ CHANGELOG.md
+├─ huginn
 ├─ LICENSE
 ├─ pyproject.toml
 ├─ README.md
+├─ ROADMAP.md
 └─ setup.py
